@@ -1,0 +1,53 @@
+# for creating group
+ansible all -i hosts -m group -a "name=ninja state=present" -b
+ansible all -i hosts -m group -a "name=team state=present" -b
+
+# for creating user and add them in group
+ansible all -i hosts -m "user" -a "name=nitesh state=present password='qwert123' groups=ninja append=yes" -b 
+ansible all -i hosts -m "user" -a "name=ritesh state=present password='qwert123' groups=ninja append=yes" -b
+ansible all -i hosts -m "user" -a "name=jitesh state=present password='qwert123' groups=team append=yes" -b
+ansible all -i hosts -m "user" -a "name=hitesh state=present password='qwert123' groups=team append=yes" -b
+
+# for home directory 
+ansible all -i hosts -m file -a "path=/home/nitesh state=directory owner=nitesh group=ninja mode=755" -b
+ansible all -i hosts -m file -a "path=/home/ritesh state=directory owner=ritesh group=ninja mode=755" -b
+ansible all -i hosts -m file -a "path=/home/jitesh state=directory owner=jitesh group=team mode=755" -b
+ansible all -i hosts -m file -a "path=/home/hitesh state=directory owner=hitesh group=team mode=755" -b
+
+
+# for shared directory
+ansible all -i hosts -m file -a "path=/home/nitesh/shared_dir1 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/nitesh/shared_dir2 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/ritesh/shared_dir1 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/ritesh/shared_dir2 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/jitesh/shared_dir1 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/jitesh/shared_dir2 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/hitesh/shared_dir1 state=directory" -b
+ansible all -i hosts -m file -a "path=/home/hitesh/shared_dir2 state=directory" -b
+
+
+#for list user and group
+ansible all -i hosts -m getent -a "database=passwd" -b
+ansible all -i hosts -m getent -a "database=group"  -b
+
+
+#change password and shell of user
+ansible all -i hosts -m user -a "name=nitesh update_password=always password='daakuno1' shell=/bin/bash" -b
+ansible all -i hosts -m user -a "name=ritesh update_password=always password='daakuno1' shell=/bin/bash" -b
+ansible all -i hosts -m user -a "name=jitesh update_password=always password='daakuno1' shell=/bin/bash" -b
+ansible all -i hosts -m user -a "name=hitesh update_password=always password='daakuno1' shell=/bin/bash" -b
+
+
+#for remove user and their primary group
+ansible all -i hosts -m user -a "name=nitesh state=absent remove=yes" -b
+ansible all -i hosts -m user -a "name=ritesh state=absent remove=yes" -b
+ansible all -i hosts -m user -a "name=jitesh state=absent remove=yes" -b
+ansible all -i hosts -m user -a "name=hitesh state=absent remove=yes" -b
+
+
+#for delete group
+ansible all -i hosts -m group -a "name=ninja state=absent" -b
+ansible all -i hosts -m group -a "name=team state=absent" -b
+
+
+
